@@ -43,12 +43,13 @@ max_number_of_likes = 0
 desired_following = 0
 desired_unfollowing = 0
 
-def tags_navigation(hashtags):
+def tags_sorting(hashtags):
     for tags in hashtags:
         tag_list.append(f'https://www.instagram.com/tags/{hashtags[tags]}/')
 
-def skip_nine():
-    #skip the top 9 posts
+def tag_navigation():
+
+
 
 def input_loop(do_tag=False, do_user=False, do_whitelist=False):
     start_bool = do_tag or do_user or do_whitelist
@@ -87,7 +88,7 @@ def random():
     for number in first_session:
         print(number)
 
-
+    comment(feed=True)
 # 1
 def like(max_number_of_likes, time_between, skip_top_nine):
 
@@ -136,19 +137,27 @@ def unfollow(users_unfollow, whitelist, desired_unfollowing, time_between):
 
 
 # 4
-def comment(hashtags, max_number_of_comments, time_between, comment_input, feed, skip_top_nine):
-    comments = 0
+def comment(hashtags, max_number_of_comments, time_between, comment_input, skip_top_nine, feed=False):
+    if feed:
+        driver.get("https://www.instagram.com/")
+
     if skip_top_nine:
-        skip_nine()
-    while comments >= max_number_of_comments:
-        if hashtags:
+        recent_posts = driver.find_element_by_xpath('/html/body/div[1]/section/main/article/div[2]/div')
+        links = recent_posts.find_elements_by_tag_name('a')
+
+        def duplicate(link):
+            return link not in links
+
+        valid_links = list(filter(duplicate(), links))
+
+        while len(slinks) < max_number_of_comments:
             driver.get(tag_list(0))
+            comment_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[6]/div[2]/div[1]/article[1]/div[3]/section[3]/div[1]/form[1]/textarea[1]").click()
+            comment_clicker.send_keys(comment)
+            slinks = list()
+            for x in range(len(links)):
+                slinks.append(links[x].get_attribute('href'))
 
-            comments += comments
-        if feed:
-            driver.get("https://www.instagram.com/")
-
-            comments += comments
     #find comment input and start commenting from priority of hashtags>feed.
     #comments with timer
     random()
