@@ -48,8 +48,6 @@ def tags_sorting(hashtags):
     for tags in hashtags:
         tag_list.append(f'https://www.instagram.com/tags/{hashtags[tags]}/')
 
-def tag_navigation():
-
 
 
 def input_loop(do_tag=False, do_user=False, do_whitelist=False):
@@ -91,7 +89,7 @@ def random():
 
     comment(feed=True)
 # 1
-def like(max_number_of_likes, time_between, skip_top_nine):
+def like(max_number_of_likes, skip_top_nine):
 
     if skip_top_nine:
 
@@ -143,38 +141,75 @@ def comment(max_number_of_comments, comment_input, skip_top_nine, feed=False):
         driver.get("https://www.instagram.com/")
 
     else:
-        for tag in tag_list:
+        for tag in range(len(tag_list)):
+            driver.get(f'https://www.instagram.com/tags/{tag_list[tag]}/')
             if skip_top_nine:
                 recent_posts = driver.find_element_by_xpath('/html/body/div[1]/section/main/article/div[2]/div')
-                links = recent_posts.find_elements_by_tag_name('a')
+                link_list = recent_posts.find_elements_by_tag_name('a')
 
-                def duplicate(link):
-                    return link not in links
+                real_links = list()
+                while len(real_links) < max_number_of_comments:
+                    driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
+                    link_list = recent_posts.find_elements_by_tag_name('a')
+                    for x in range(len(link_list)):
+                        if link_list[x].get_attribute("href") in real_links:
+                            pass
+                        else:
+                            if len(real_links) < max_number_of_comments:
+                                real_links.append(link_list[x].get_attribute("href"))
+                print(real_links)
+                for z in range(len(real_links)):
+                    driver.get(real_links[z])
+                    time1 = random.uniform(5, 10)
+                    time2 = random.uniform(5, 10)
+                    time3 = random.uniform(5, 10)
+                    print(time1)
+                    print(time2)
+                    print(time3)
+                    print(z)
+                    # add delay!
+                    comment_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
+                    comment_clicker.click()
+                    comment_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
+                    comment_clicker.send_keys(comment_input)
+                    comment_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/button[2]")
+                    comment_clicker.click()
 
-                    while len(slinks) < max_number_of_comments:
-                        driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
-                        slinks = list()
-                        for x in range(len(links)):
-                            slinks = filter(duplicate(duplicate, slinks))
-                            slinks.append(links[x].get_attribute('href'))
-
-                        for sslinks in slinks:
-                            comment_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[6]/div[2]/div[1]/article[1]/div[3]/section[3]/div[1]/form[1]/textarea[1]").click()
-                            comment_clicker.send_keys(comment)
             else:
-                def duplicate(link):
-                    return link not in links
+                while len(real_links) < max_number_of_comments:
+                    driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
+                    link_list = recent_posts.find_elements_by_tag_name('a')
+                    for x in range(len(link_list)):
+                        if link_list[x].get_attribute("href") in real_links:
+                            pass
+                        else:
+                            if len(real_links) < max_number_of_comments:
+                                real_links.append(link_list[x].get_attribute("href"))
+                print(real_links)
+                for z in range(len(real_links)):
+                    driver.get(real_links[z])
+                    time1 = random.uniform(5, 10)
+                    time2 = random.uniform(5, 10)
+                    time3 = random.uniform(5, 10)
+                    print(time1)
+                    print(time2)
+                    print(time3)
+                    print(z)
+                    # add delay!
+                    comment_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
+                    comment_clicker.click()
+                    comment_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
+                    comment_clicker.send_keys(comment_input)
+                    comment_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/button[2]")
+                    comment_clicker.click()
 
-                    while len(slinks) < max_number_of_comments:
-                        driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
-                        slinks = list()
-                        for x in range(len(links)):
-                            slinks = filter(duplicate(duplicate, slinks))
-                            slinks.append(links[x].get_attribute('href'))
 
-                        for sslinks in slinks:
-                            comment_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[6]/div[2]/div[1]/article[1]/div[3]/section[3]/div[1]/form[1]/textarea[1]").click()
-                            comment_clicker.send_keys(comment)
 
 
     #find comment input and start commenting from priority of hashtags>feed.
