@@ -48,22 +48,26 @@ desired_following = 0
 desired_unfollowing = 0
 
 #TODO integrate these arguments
+#comment arguments
 max_number_of_comments = input() #int
 comment_input = input() #str and later maybe list
 skip_top_nine = True #bool
-feed=False #optional argument
+feed = False #optional argument
 #dm arguements
 max_number_of_dms = input() #int
 dm_input = input("") #str and later maybe list
 skip_top_nine = True #bool
-users= [] #optional argument list
-accounts_to_follow = input() #int
-follow_followers = input() #int
-follow_likers = input() #int
-post_index = list() #list
-hashtags = list() #list
+#follow arguements
+accounts_to_follow = list() #list
+follow_followers = True #bool
+follow_likers = True #bool
+post_index = list() #which posts you wanna follow from (photos only)
+hashtags = tag_list
 time_between = input() #int
 skip_top_nine = True #bool
+#unfollow argument
+users_unfollow = list() #list
+desired_unfollowing = input() #int
 
 def tags_sorting(hashtags):
     for tags in hashtags:
@@ -345,7 +349,7 @@ def comment(max_number_of_comments, comment_input, skip_top_nine, feed=False):
     pass
 # 5
 
-def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users= []):
+def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list):
     if users:
         for user in users:
             driver.get("https://www.instagram.com/direct/new/")
