@@ -95,6 +95,10 @@ def like(max_number_of_likes, tags, time_between=5, skip_top_nine=True):
     for tag in range(len(tags)):
         driver.get(f'https://www.instagram.com/tags/{tags[tag]}')
 
+    for tag in range(len(tags)):
+        driver.get(f'https://www.instagram.com/tags/{tags[tag]}')
+
+
         # Intial
         posts = None
         if skip_top_nine:
@@ -144,6 +148,7 @@ def like(max_number_of_likes, tags, time_between=5, skip_top_nine=True):
 
 # 2
 def follow(accounts_to_follow, accounts_to_follow_following, accounts_to_follow_likers, post_index, hashtags, time_between, skip_top_nine):
+
     # just following user
     if follow_user and not follow_followers:
         for names in account_names:
@@ -206,6 +211,22 @@ def follow(accounts_to_follow, accounts_to_follow_following, accounts_to_follow_
                 sleep(1)
             except NoSuchElementException:
                 continue
+    follows = 0
+    accounts_list = ["", accounts_to_follow]
+   # subcount = driver.find_element_by_id("subscriber-count").text
+    #print(subcount)
+    followers = driver.find_element_by_class_name("-nal3").click
+    for x in range(desired_following):
+        index = 1
+        driver.find_element_by_xpath(f"/html/body/div[6]/div/div/div[2]/ul/div/li[{index}]]/div/div[2]/button").click
+        index += 1
+
+    for account in accounts_list:
+        accounts_list.append(account)
+    if follows < desired_following:
+        #stop following
+
+    pass
 
 
 # 3
