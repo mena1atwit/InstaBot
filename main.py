@@ -90,17 +90,56 @@ def random():
 
     comment(feed=True)
 # 1
-def like(max_number_of_likes, skip_top_nine):
+def like(max_number_of_likes, tags, time_between=5, skip_top_nine=True):
 
-    if skip_top_nine:
+    for tag in range(len(tags)):
+        driver.get(f'https://www.instagram.com/tags/{tags[tag]}')
 
+        # Intial
+        posts = None
+        if skip_top_nine:
+            posts = driver.find_element_by_xpath('/html/body/div[1]/section/main/article/div[2]')
+        else:
+            posts = driver.find_element_by_xpath('/html/body/div[1]/section/main/article')
 
-    number_of_likes = 0
-    #for every post liked, number_of_likes++
-    if number_of_likes >= max_number_of_likes:
-        #stop liking, and return to first_session, find next index.
+        a_element = posts.find_elements_by_tag_name('a')
 
-    pass
+        actual_links = list()
+
+        for x in range(len(a_element)):
+            if len(actual_links) < max_number_of_likes:
+                actual_links.append(a_element[x].get_attribute('href'))
+
+        while len(actual_links) < max_number_of_likes:
+            driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
+            a_element = posts.find_elements_by_tag_name('a')
+
+            for x in range(len(a_element)):
+                if a_element[x].get_attribute('href') in actual_links:
+                    pass
+                else:
+                    if len(actual_links) < max_number_of_likes:
+                        actual_links.append(a_element[x].get_attribute('href'))
+            sleep(1)
+
+        with open('links.txt', "a") as f:
+            for x in range(len(actual_links)):
+                print(actual_links[x], file=f)
+
+        for x in range(len(actual_links)):
+            print(x)
+            driver.get(actual_links[x])
+            try:
+                dur1 = random.uniform(10, 15)
+                dur2 = random.uniform(10, 15)
+                print(dur1)
+                print(dur2)
+                sleep(dur1)
+                driver.find_element_by_xpath(
+                    '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[1]/button').click()
+                sleep(dur2)
+            except NoSuchElementException:
+                continue
 
 
 # 2
