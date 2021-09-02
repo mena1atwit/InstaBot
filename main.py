@@ -4,6 +4,8 @@ from selenium import webdriver
 import random
 import time
 from collections import Counter
+
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import re
 
@@ -44,6 +46,24 @@ tag_list = list()
 max_number_of_likes = 0
 desired_following = 0
 desired_unfollowing = 0
+
+#TODO integrate these arguments
+max_number_of_comments = input() #int
+comment_input = input() #str and later maybe list
+skip_top_nine = True #bool
+feed=False #optional argument
+#dm arguements
+max_number_of_dms = input() #int
+dm_input = input("") #str and later maybe list
+skip_top_nine = True #bool
+users= [] #optional argument list
+accounts_to_follow = input() #int
+follow_followers = input() #int
+follow_likers = input() #int
+post_index = list() #list
+hashtags = list() #list
+time_between = input() #int
+skip_top_nine = True #bool
 
 def tags_sorting(hashtags):
     for tags in hashtags:
@@ -147,7 +167,7 @@ def like(max_number_of_likes, tags, time_between=5, skip_top_nine=True):
 
 
 # 2
-def follow(accounts_to_follow, accounts_to_follow_following, accounts_to_follow_likers, post_index, hashtags, time_between, skip_top_nine):
+def follow(accounts_to_follow, follow_followers, follow_likers, post_index, hashtags, time_between, skip_top_nine):
 
     # just following user
     if follow_user and not follow_followers:
@@ -324,6 +344,7 @@ def comment(max_number_of_comments, comment_input, skip_top_nine, feed=False):
                         continue
     pass
 # 5
+
 def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users= []):
     if users:
         for user in users:
