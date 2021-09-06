@@ -105,6 +105,7 @@ def input_loop(do_tag=False, do_user=False, do_whitelist=False):
         else:
             do_cont = False
 
+#TODO integrate random function
 def random():
     first_session = ["1", "2", "3", "4", "5"]
     random.shuffle(first_session)
@@ -249,25 +250,32 @@ def follow(accounts_to_follow, follow_followers, follow_likers, post_index, hash
         accounts_list.append(account)
     if follows < desired_following:
         #stop following
-
-    pass
-
-
-# 3
-def unfollow(users_unfollow, whitelist, desired_unfollowing, time_between):
-    unfollow_users = users_unfollow
-    #unfollow input users
-    list_intersection = set.intersection(set(unfollow_users),set(whitelist))
-    #do not unfollow intersections
-    unfollowed = 0
-    #for every person unfollowed, unfollowed++
-    if unfollowed >= desired_unfollowing:
-        #stop unfollowing, and return to first_session, find next index
         pass
 
 
+# 3
+#TODO finish unfollow function
+def unfollow(users_unfollow, whitelist, desired_unfollowing, time_between):
+    unfollow_users = users_unfollow
+    #unfollow input users
+    #unfollow method
+    # list_intersection = set.intersection(set(unfollow_users),set(whitelist))
+    #do not unfollow intersections
+    if users_unfollow > 0:
+        for names in users_unfollow:
+            driver.get(f'https://www.instagram.com/%7Bnames%7D/%27')
+            driver.implicitly_wait(5)
+            user_account = driver.find_element_by_xpath("/ html/body/div[1]/div/div/section/main/div/header/section/div[1]/div[2]/div / div / div / span / span[1] / button").click()
+            sleep(1)
+            user_unfollow = driver.find_element_by_xpath("/html/body/div[6]/div/div/div/div[3]/button[1]").click()
+    #for every person unfollowed, unfollowed++
+    if unfollowed >= desired_unfollowing:
+        pass
+        #stop unfollowing, and return to first_session, find next index
+
+
 # 4
-def comment(max_number_of_comments, comment_input, skip_top_nine, feed=False):
+def comment(max_number_of_comments, comment_input, skip_top_nine, feed):
     if feed:
         driver.get("https://www.instagram.com/")
 
@@ -348,7 +356,6 @@ def comment(max_number_of_comments, comment_input, skip_top_nine, feed=False):
                         continue
     pass
 # 5
-
 def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list):
     if users:
         for user in users:
