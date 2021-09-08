@@ -47,68 +47,70 @@ max_number_of_likes = 0
 desired_following = 0
 desired_unfollowing = 0
 
-# TODO integrate these arguments
-# comment arguments
-max_number_of_comments = 0
-comment_input = list()
-comment_skip_top_nine = True  # bool
-comment_feed = False  # optional argument
+# # TODO integrate these arguments
+# # comment arguments
+# max_number_of_comments = 0
+# comment_input = list()
+# comment_skip_top_nine = True  # bool
+# comment_feed = False  # optional argument
 
-# dm arguements
-max_number_of_dms = input()  # int
-dm_input = input("")  # str and later maybe list
-skip_top_nine = True  # bool
-# follow arguements
-accounts_to_follow = list()  # list
-follow_followers = True  # bool
-follow_likers = True  # bool
-post_index = list()  # which posts you wanna follow from (photos only)
-hashtags = tag_list
-time_between = input()  # int
-skip_top_nine = True  # bool
-# unfollow argument
-users_unfollow = list()  # list
-desired_unfollowing = input()  # int
-
-
-def tags_sorting(hashtags):
-    for tags in hashtags:
-        tag_list.append(f'https://www.instagram.com/tags/{hashtags[tags]}/')
-
-
-def like_loop():
-    pass
-
-
-def comment_loop(do_comment_input=False):
-    max_number_of_comments = input("Number of comments: ")
-
-    start_bool = do_comment_input
-    if not start_bool:
-        raise ValueError('One argument must be set true')
-
-    do_cont = True
-
-    while do_cont:
-        user_input = input("Enter some text for a comment: ")
-        comment_input.append(user_input)
-        cont = input("Continue? (Y or N): ")
-        if cont.lower() == "y":
-            do_cont = True
-        else:
-            do_cont = False
-
-
-def dm_loop():
-    pass
-
-
-def follow_loop():
-    pass
-
-
-def unfollow_loop():
-    pass
+# # dm arguements
+# max_number_of_dms = input()  # int
+# dm_input = input("")  # str and later maybe list
+# skip_top_nine = True  # bool
+# # follow arguements
+# accounts_to_follow = list()  # list
+# follow_followers = True  # bool
+# follow_likers = True  # bool
+# post_index = list()  # which posts you wanna follow from (photos only)
+# hashtags = tag_list
+# time_between = input()  # int
+# skip_top_nine = True  # bool
+# # unfollow argument
+# users_unfollow = list()  # list
+# desired_unfollowing = input()  # int
+#
+#
+# def tags_sorting(hashtags):
+#     for tags in hashtags:
+#         tag_list.append(f'https://www.instagram.com/tags/{hashtags[tags]}/')
+#
+#
+# def like_loop():
+#     pass
+#
+#
+# def comment_loop(do_comment_input=False):
+#     max_number_of_comments = input("Number of comments: ")
+#
+#     start_bool = do_comment_input
+#     if not start_bool:
+#         raise ValueError('One argument must be set true')
+#
+#     do_cont = True
+#
+#     while do_cont:
+#         user_input = input("Enter some text for a comment: ")
+#         comment_input.append(user_input)
+#         cont = input("Continue? (Y or N): ")
+#         if cont.lower() == "y":
+#             do_cont = True
+#         else:
+#             do_cont = False
+#
+#
+# def dm_loop():
+#
+#
+#     pass
+#
+#
+# def follow_loop():
+#     pass
+#
+#
+# def unfollow_loop():
+#     pass
 
 
 def input_loop(do_tag=False, do_user=False, do_whitelist=False):
