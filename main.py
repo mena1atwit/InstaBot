@@ -4,6 +4,8 @@ from selenium import webdriver
 import random
 import time
 from collections import Counter
+
+from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 import re
 
@@ -11,7 +13,6 @@ driver = webdriver.Chrome()
 
 
 def login(username, password):
-
     username = input("Enter Username: wheis12")
     password = input("Enter Password: Chowder888")
 
@@ -37,6 +38,7 @@ def login(username, password):
     not_now_btn2.click()
     sleep(5)
 
+
 hashtags = list()
 users = list()
 whitelist = list()
@@ -45,10 +47,70 @@ max_number_of_likes = 0
 desired_following = 0
 desired_unfollowing = 0
 
-def tags_sorting(hashtags):
-    for tags in hashtags:
-        tag_list.append(f'https://www.instagram.com/tags/{hashtags[tags]}/')
+# # TODO integrate these arguments
+# # comment arguments
+# max_number_of_comments = 0
+# comment_input = list()
+# comment_skip_top_nine = True  # bool
+# comment_feed = False  # optional argument
 
+# # dm arguements
+# max_number_of_dms = input()  # int
+# dm_input = input("")  # str and later maybe list
+# skip_top_nine = True  # bool
+# # follow arguements
+# accounts_to_follow = list()  # list
+# follow_followers = True  # bool
+# follow_likers = True  # bool
+# post_index = list()  # which posts you wanna follow from (photos only)
+# hashtags = tag_list
+# time_between = input()  # int
+# skip_top_nine = True  # bool
+# # unfollow argument
+# users_unfollow = list()  # list
+# desired_unfollowing = input()  # int
+#
+#
+# def tags_sorting(hashtags):
+#     for tags in hashtags:
+#         tag_list.append(f'https://www.instagram.com/tags/{hashtags[tags]}/')
+#
+#
+# def like_loop():
+#     pass
+#
+#
+# def comment_loop(do_comment_input=False):
+#     max_number_of_comments = input("Number of comments: ")
+#
+#     start_bool = do_comment_input
+#     if not start_bool:
+#         raise ValueError('One argument must be set true')
+#
+#     do_cont = True
+#
+#     while do_cont:
+#         user_input = input("Enter some text for a comment: ")
+#         comment_input.append(user_input)
+#         cont = input("Continue? (Y or N): ")
+#         if cont.lower() == "y":
+#             do_cont = True
+#         else:
+#             do_cont = False
+#
+#
+# def dm_loop():
+#
+#
+#     pass
+#
+#
+# def follow_loop():
+#     pass
+#
+#
+# def unfollow_loop():
+#     pass
 
 
 def input_loop(do_tag=False, do_user=False, do_whitelist=False):
@@ -81,23 +143,14 @@ def input_loop(do_tag=False, do_user=False, do_whitelist=False):
         else:
             do_cont = False
 
-def random():
-    first_session = ["1", "2", "3", "4", "5"]
-    random.shuffle(first_session)
 
-    for number in first_session:
-        print(number)
-
-    comment(feed=True)
 # 1
 def like(max_number_of_likes, tags, time_between=5, skip_top_nine=True):
-
     for tag in range(len(tags)):
         driver.get(f'https://www.instagram.com/tags/{tags[tag]}')
 
     for tag in range(len(tags)):
         driver.get(f'https://www.instagram.com/tags/{tags[tag]}')
-
 
         # Intial
         posts = None
@@ -147,8 +200,7 @@ def like(max_number_of_likes, tags, time_between=5, skip_top_nine=True):
 
 
 # 2
-def follow(accounts_to_follow, accounts_to_follow_following, accounts_to_follow_likers, post_index, hashtags, time_between, skip_top_nine):
-
+def follow(accounts_to_follow, follow_followers, follow_likers, post_index, hashtags, time_between, skip_top_nine):
     # just following user
     if follow_user and not follow_followers:
         for names in account_names:
@@ -213,8 +265,8 @@ def follow(accounts_to_follow, accounts_to_follow_following, accounts_to_follow_
                 continue
     follows = 0
     accounts_list = ["", accounts_to_follow]
-   # subcount = driver.find_element_by_id("subscriber-count").text
-    #print(subcount)
+    # subcount = driver.find_element_by_id("subscriber-count").text
+    # print(subcount)
     followers = driver.find_element_by_class_name("-nal3").click
     for x in range(desired_following):
         index = 1
@@ -224,28 +276,45 @@ def follow(accounts_to_follow, accounts_to_follow_following, accounts_to_follow_
     for account in accounts_list:
         accounts_list.append(account)
     if follows < desired_following:
-        #stop following
-
-    pass
-
-
-# 3
-def unfollow(users_unfollow, whitelist, desired_unfollowing, time_between):
-    unfollow_users = users_unfollow
-    #unfollow input users
-    list_intersection = set.intersection(set(unfollow_users),set(whitelist))
-    #do not unfollow intersections
-    unfollowed = 0
-    #for every person unfollowed, unfollowed++
-    if unfollowed >= desired_unfollowing:
-        #stop unfollowing, and return to first_session, find next index
+        # stop following
         pass
 
 
+# 3
+# TODO finish unfollow function
+def unfollow(users_unfollow, whitelist, desired_unfollowing, time_between):
+    unfollow_users = users_unfollow
+    # unfollow input users
+    # unfollow method
+    # list_intersection = set.intersection(set(unfollow_users),set(whitelist))
+    # do not unfollow intersections
+    if users_unfollow > 0:
+        for names in users_unfollow:
+            driver.get(f'https://www.instagram.com/%7Bnames%7D/%27')
+            driver.implicitly_wait(5)
+            user_account = driver.find_element_by_xpath(
+                "/ html/body/div[1]/div/div/section/main/div/header/section/div[1]/div[2]/div / div / div / span / span[1] / button").click()
+            sleep(1)
+            user_unfollow = driver.find_element_by_xpath("/html/body/div[6]/div/div/div/div[3]/button[1]").click()
+    # for every person unfollowed, unfollowed++
+    if unfollowed >= desired_unfollowing:
+        pass
+        # stop unfollowing, and return to first_session, find next index
+
+
 # 4
-def comment(max_number_of_comments, comment_input, skip_top_nine, feed=False):
+def comment(max_number_of_comments, comment_input, skip_top_nine, feed):
     if feed:
         driver.get("https://www.instagram.com/")
+        for r in max_number_of_comments:
+            try:
+                comment_clicker = driver.find_element_by_xpath(
+                    "/html/body/div[1]/section/main/section/div[1]/div[3]/div/article[" + str(
+                        r) + "]/div[3]/section[3]/div/form/textarea")
+                comment_clicker.click()
+                comment_clicker.send_keys(comment_input)
+            except NoSuchElementException:
+                driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
 
     else:
         for tag in range(len(tag_list)):
@@ -311,37 +380,46 @@ def comment(max_number_of_comments, comment_input, skip_top_nine, feed=False):
                     print(time3)
                     print(z)
                     try:
-                        comment_clicker = driver.find_element_by_xpath("/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
+                        comment_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
                         comment_clicker.click()
                         sleep(time1)
-                        comment_clicker = driver.find_element_by_xpath("/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
+                        comment_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
                         comment_clicker.send_keys(comment_input)
                         sleep(time2)
-                        comment_clicker = driver.find_element_by_xpath("/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/button[2]")
+                        comment_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/button[2]")
                         comment_clicker.click()
                         sleep(time3)
                     finally:
                         continue
     pass
+
+
 # 5
-def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users= []):
+def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users):
     if users:
         for user in users:
             driver.get("https://www.instagram.com/direct/new/")
             dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div[1]/div/div[2]/input")
             dm_clicker.click()
             dm_clicker.send_keys(users[user])
-            dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
+            dm_clicker = driver.find_element_by_xpath(
+                "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
             dm_clicker.click()
             sleep(3)
             dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[1]/div/div[2]/div/button/div")
             dm_clicker.click()
             sleep(3)
-            dm_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
+            dm_clicker = driver.find_element_by_xpath(
+                "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
             dm_clicker.click()
-            dm_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
+            dm_clicker = driver.find_element_by_xpath(
+                "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
             dm_clicker.send_keys(dm_input)
-            dm_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]")
+            dm_clicker = driver.find_element_by_xpath(
+                "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]")
             dm_clicker.click()
 
     else:
@@ -371,7 +449,8 @@ def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users= []):
                     dm_list.append(user_link.get_attribute("href"))
                 for y in range(len(dm_list)):
                     driver.get("https://www.instagram.com/direct/new/")
-                    dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div[1]/div/div[2]/input")
+                    dm_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[2]/div/div/div[2]/div[1]/div/div[2]/input")
                     dm_clicker.click()
 
                     s = dm_list[y]
@@ -379,19 +458,25 @@ def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users= []):
                     print(result.group(1))
                     dm_clicker.send_keys(result.group(1))
 
-                    dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
+                    dm_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
                     dm_clicker.click()
                     sleep(3)
-                    dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[1]/div/div[2]/div/button/div")
+                    dm_clicker = driver.find_element_by_xpath(
+                        "/html/body/div[2]/div/div/div[1]/div/div[2]/div/button/div")
                     dm_clicker.click()
                     sleep(3)
-                    dm_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
+                    dm_clicker = driver.find_element_by_xpath(
+                        "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
                     dm_clicker.click()
-                    dm_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
+                    dm_clicker = driver.find_element_by_xpath(
+                        "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
                     dm_clicker.send_keys(dm_input)
-                    dm_clicker = driver.find_element_by_xpath("/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]")
+                    dm_clicker = driver.find_element_by_xpath(
+                        "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]")
                     dm_clicker.click()
     pass
+
 
 def main():
     input_loop(do_tag=True)
