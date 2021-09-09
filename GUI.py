@@ -26,7 +26,7 @@ class Expandable(QMainWindow):
 
         treeModel = QStandardItemModel()
         rootNode = treeModel.invisibleRootItem()
-
+#
         "--------------------------------------"
 
         Like = StandardItem("Like", 16, set_bold= True)
