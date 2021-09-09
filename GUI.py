@@ -47,11 +47,11 @@ class Expandable(QMainWindow):
         Like.appendRow(order_like)
 
         inpt = StandardItem()
-        Like.appendColumn([inpt])
-        Like.appendColumn([inpt])
-        Like.appendColumn([inpt])
-        Like.appendColumn([inpt])
-        Like.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
 
         Comment = StandardItem("Comment", 16, set_bold = True)
         max_number_of_comments = StandardItem("max_number_of_comments", 14)
@@ -110,6 +110,8 @@ class Expandable(QMainWindow):
         Unfollow.appendRow(whitelist)
         Unfollow.appendRow(desired_unfollowing)
         Unfollow.appendRow(delay_unfollow)
+
+
 
         rootNode.appendRow(Like)
         rootNode.appendRow(Comment)
