@@ -272,7 +272,7 @@ def follow(accounts_to_follow, follow_followers, follow_likers, post_index, hash
         index = 1
         driver.find_element_by_xpath(f"/html/body/div[6]/div/div/div[2]/ul/div/li[{index}]]/div/div[2]/button").click
         index += 1
-
+#
     for account in accounts_list:
         accounts_list.append(account)
     if follows < desired_following:
