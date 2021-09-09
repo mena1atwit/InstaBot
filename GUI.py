@@ -2,6 +2,10 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTreeView
 from PyQt5.Qt import QStandardItemModel, QStandardItem
 from PyQt5.QtGui import QFont, QColor
+from PyQt5.QtGui import QDoubleValidator, QValidator
+from _distutils_hack import enabled
+
+
 
 class StandardItem(QStandardItem):
     def __init__(self, txt="", font_size=12, set_bold=False, color=QColor(0,0,0)):
@@ -24,7 +28,7 @@ class Expandable(QMainWindow):
         collapsable = QTreeView()
         collapsable.setHeaderHidden(True)
 
-        treeModel = QStandardItemModel()
+        treeModel = QStandardItemModel(0,2)
         rootNode = treeModel.invisibleRootItem()
 #
         "--------------------------------------"
@@ -35,12 +39,19 @@ class Expandable(QMainWindow):
         delay_like = StandardItem("delay", 14)
         skip_top_9_like = StandardItem("delay", 14)
         order_like = StandardItem("order", 14)
+
         Like.appendRow(max_number_of_likes)
         Like.appendRow(tags_like)
         Like.appendRow(delay_like)
         Like.appendRow(skip_top_9_like)
         Like.appendRow(order_like)
 
+        inpt = StandardItem()
+        # max_number_of_likes.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
+        # max_number_of_likes.appendColumn([inpt])
 
         Comment = StandardItem("Comment", 16, set_bold = True)
         max_number_of_comments = StandardItem("max_number_of_comments", 14)
@@ -99,6 +110,8 @@ class Expandable(QMainWindow):
         Unfollow.appendRow(whitelist)
         Unfollow.appendRow(desired_unfollowing)
         Unfollow.appendRow(delay_unfollow)
+
+
 
         rootNode.appendRow(Like)
         rootNode.appendRow(Comment)
