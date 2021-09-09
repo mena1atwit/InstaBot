@@ -40,18 +40,7 @@ class Expandable(QMainWindow):
         skip_top_9_like = StandardItem("delay", 14)
         order_like = StandardItem("order", 14)
 
-        Like.appendRow(max_number_of_likes)
-        Like.appendRow(tags_like)
-        Like.appendRow(delay_like)
-        Like.appendRow(skip_top_9_like)
-        Like.appendRow(order_like)
 
-        inpt = StandardItem()
-        # max_number_of_likes.appendColumn([inpt])
-        # max_number_of_likes.appendColumn([inpt])
-        # max_number_of_likes.appendColumn([inpt])
-        # max_number_of_likes.appendColumn([inpt])
-        # max_number_of_likes.appendColumn([inpt])
 
         Comment = StandardItem("Comment", 16, set_bold = True)
         max_number_of_comments = StandardItem("max_number_of_comments", 14)
@@ -60,11 +49,6 @@ class Expandable(QMainWindow):
         skip_top_9_comment = StandardItem("delay", 14)
         order_comment = StandardItem("order", 14)
 
-        Comment.appendRow(max_number_of_comments)
-        Comment.appendRow(tags_comment)
-        Comment.appendRow(delay_comment)
-        Comment.appendRow(skip_top_9_comment)
-        Comment.appendRow(order_comment)
 
 
         Dm = StandardItem("Dm", 16, set_bold=True)
@@ -74,13 +58,6 @@ class Expandable(QMainWindow):
         dm_input = StandardItem("dm_input", 14)
         skip_top_9_dm = StandardItem("delay", 14)
         users_dm = StandardItem("users", 14)
-
-        Dm.appendRow(max_number_of_dms)
-        Dm.appendRow(tags_dm)
-        Dm.appendRow(delay_dm)
-        Dm.appendRow(dm_input)
-        Dm.appendRow(skip_top_9_dm)
-        Dm.appendRow(users_dm)
 
 
         Follow = StandardItem("Follow", 16, set_bold=True)
@@ -92,6 +69,33 @@ class Expandable(QMainWindow):
         delay_follow = StandardItem("delay", 14)
         skip_top_nine_follow = StandardItem("skip_top_nine", 14)
 
+
+        Unfollow = StandardItem("Unfollow", 16, set_bold=True)
+        users_unfollow = StandardItem("users_unfollow", 14)
+        whitelist = StandardItem("whitelist", 14)
+        desired_unfollowing = StandardItem("desired_unfollowing", 14)
+        delay_unfollow = StandardItem("delay", 14)
+
+        inpt = StandardItem()
+        Like.appendRow([max_number_of_likes, inpt])
+        Like.appendRow([tags_like, inpt])
+        Like.appendRow([delay_like, inpt])
+        Like.appendRow([skip_top_9_like, inpt])
+        Like.appendRow([order_like, inpt])
+
+        Comment.appendRow([max_number_of_comments, inpt])
+        Comment.appendRow([tags_comment, inpt])
+        Comment.appendRow([delay_comment, inpt])
+        Comment.appendRow([skip_top_9_comment, inpt])
+        Comment.appendRow([order_comment, inpt])
+
+        Dm.appendRow([max_number_of_dms, ])
+        Dm.appendRow([tags_dm, inpt])
+        Dm.appendRow([delay_dm, inpt])
+        Dm.appendRow([dm_input, inpt])
+        Dm.appendRow([skip_top_9_dm, inpt])
+        Dm.appendRow([users_dm, inpt])
+
         Follow.appendRow(accounts_to_follow)
         Follow.appendRow(follow_followers)
         Follow.appendRow(follow_likers)
@@ -100,18 +104,10 @@ class Expandable(QMainWindow):
         Follow.appendRow(delay_follow)
         Follow.appendRow(skip_top_nine_follow)
 
-        Unfollow = StandardItem("Unfollow", 16, set_bold=True)
-        users_unfollow = StandardItem("users_unfollow", 14)
-        whitelist = StandardItem("whitelist", 14)
-        desired_unfollowing = StandardItem("desired_unfollowing", 14)
-        delay_unfollow = StandardItem("delay", 14)
-
         Unfollow.appendRow(users_unfollow)
         Unfollow.appendRow(whitelist)
         Unfollow.appendRow(desired_unfollowing)
         Unfollow.appendRow(delay_unfollow)
-
-
 
         rootNode.appendRow(Like)
         rootNode.appendRow(Comment)
