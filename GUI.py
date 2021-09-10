@@ -14,11 +14,17 @@ class MainWindow(QWidget):
         #like
         self.max_number_of_likes = QLineEdit()
         self.tags_like = QLineEdit()
+
         #delay top like float
         self.delay_like = QLineEdit()
         self.skip_top_nine_like = QComboBox()
         self.skip_top_nine_like.addItems(["Yes", "No"])
         #order like is an int
+
+        self.delay_like = QLineEdit()
+        self.skip_top_nine_like = QComboBox()
+        self.skip_top_nine_like.addItems(["Yes", "No"])
+
         self.order_like = QLineEdit()
 
         mainLayout.addWidget(QLabel('like:'))
@@ -97,7 +103,11 @@ class MainWindow(QWidget):
         mainLayout.addWidget(self.delay_unfollow)
 
 
+
         self.Confirm = QPushButton('Confirm')
+
+        self.Confirm = QPushButton('Run')
+
         self.Confirm.setStyleSheet('font-size: 30px')
         mainLayout.addWidget(self.Confirm)
         self.Confirm.clicked.connect(self.confirm_click)
