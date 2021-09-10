@@ -1,11 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QVBoxLayout, QLabel
+from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QVBoxLayout, QLabel, QComboBox
 
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Main Window')
+        self.setWindowTitle('InstaBot')
         self.setFixedWidth(1000)
 
         mainLayout = QVBoxLayout()
@@ -15,7 +15,8 @@ class MainWindow(QWidget):
         self.max_number_of_likes = QLineEdit()
         self.tags_like = QLineEdit()
         self.delay_like = QLineEdit()
-        self.skip_top_nine_like = QLineEdit()
+        self.skip_top_nine_like = QComboBox()
+        self.skip_top_nine_like.addItems(["Yes", "No"])
         self.order_like = QLineEdit()
 
         mainLayout.addWidget(QLabel('like:'))
@@ -29,15 +30,16 @@ class MainWindow(QWidget):
         self.max_number_of_comments = QLineEdit()
         self.tags_comment = QLineEdit()
         self.delay_comment = QLineEdit()
-        self.skip_top_nine_like_comment = QLineEdit()
+        self.skip_top_nine_comment = QComboBox()
+        self.skip_top_nine_comment.addItems(["Yes", "No"])
         self.order_like_comment = QLineEdit()
         self.comment_input = QLineEdit()
 
-        mainLayout.addWidget(QLabel('dm:'))
+        mainLayout.addWidget(QLabel('Comment:'))
         mainLayout.addWidget(self.max_number_of_comments)
         mainLayout.addWidget(self.tags_comment)
         mainLayout.addWidget(self.delay_comment)
-        mainLayout.addWidget(self.skip_top_nine_like_comment)
+        mainLayout.addWidget(self.skip_top_nine_comment)
         mainLayout.addWidget(self.order_like_comment)
         mainLayout.addWidget(self.comment_input)
 
@@ -45,7 +47,8 @@ class MainWindow(QWidget):
         #dm
         self.max_number_of_dms = QLineEdit()
         self.dm_input = QLineEdit()
-        self.skip_top_nine_dm = QLineEdit()
+        self.skip_top_nine_dm = QComboBox()
+        self.skip_top_nine_dm.addItems(["Yes", "No"])
         self.tags_dm = QLineEdit()
         self.users_dm = QLineEdit()
         self.delay_dm = QLineEdit()
@@ -66,9 +69,10 @@ class MainWindow(QWidget):
         self.post_index = QLineEdit()
         self.tags_follow = QLineEdit()
         self.delay_follow = QLineEdit()
-        self.skip_top_nine_follow = QLineEdit()
+        self.skip_top_nine_follow = QComboBox()
+        self.skip_top_nine_follow.addItems(["Yes", "No"])
 
-        mainLayout.addWidget(QLabel('dm:'))
+        mainLayout.addWidget(QLabel('Follow:'))
         mainLayout.addWidget(self.accounts_to_follow)
         mainLayout.addWidget(self.follow_followers)
         mainLayout.addWidget(self.follow_likers)
@@ -84,14 +88,14 @@ class MainWindow(QWidget):
         self.desired_unfollowing = QLineEdit()
         self.delay_unfollow = QLineEdit()
 
-        mainLayout.addWidget(QLabel('dm:'))
+        mainLayout.addWidget(QLabel('Unfollow:'))
         mainLayout.addWidget(self.users_unfollow)
         mainLayout.addWidget(self.whitelist)
         mainLayout.addWidget(self.desired_unfollowing)
         mainLayout.addWidget(self.delay_unfollow)
 
 
-        self.Confirm = QPushButton('Confirm')
+        self.Confirm = QPushButton('Run')
         self.Confirm.setStyleSheet('font-size: 30px')
         # self.Confirm.clicked.connect(self.passingInformation)
         mainLayout.addWidget(self.Confirm)
