@@ -203,7 +203,7 @@ class InstaBot():
             # stop unfollowing, and return to first_session, find next index
 
     # 4
-    def comment(max_number_of_comments, comment_input, skip_top_nine, feed):
+    def comment(max_number_of_comments, comment_input, skip_top_nine, feed, tag_list):
         if feed:
             driver.get("https://www.instagram.com/")
             for r in range(1, max_number_of_comments):
@@ -302,7 +302,7 @@ class InstaBot():
         pass
 
     # 5
-    def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users):
+    def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users_input, users=False):
         if users:
             for user in range(len(users_input)):
                 driver.get("https://www.instagram.com/direct/new/")
