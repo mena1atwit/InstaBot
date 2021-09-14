@@ -1,11 +1,10 @@
 import sys
-import main
 from main import InstaBot
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QComboBox
 
 bot = InstaBot()
-bot.login("wheis7", "Chowder888")
+bot.login("wheis8", "Chowder888")
 
 
 class BoldTitle(QLabel):

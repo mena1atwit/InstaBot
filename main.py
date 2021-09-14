@@ -375,9 +375,3 @@ class InstaBot():
                             "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]")
                         dm_clicker.click()
         pass
-
-
-bot = InstaBot()
-bot.login("wheis7", "Chowder888")
-
-bot.like(5, ["a"])
