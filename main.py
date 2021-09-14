@@ -206,13 +206,15 @@ class InstaBot():
     def comment(max_number_of_comments, comment_input, skip_top_nine, feed):
         if feed:
             driver.get("https://www.instagram.com/")
-            for r in max_number_of_comments:
+            for r in range(1, max_number_of_comments):
                 try:
-                    comment_clicker = driver.find_element_by_xpath(
-                        "/html/body/div[1]/section/main/section/div[1]/div[3]/div/article[" + str(
-                            r) + "]/div[3]/section[3]/div/form/textarea")
+                    comment_clicker = driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[1]/div[3]/div/article[" + str(r) + "]/div[3]/section[3]/div/form/textarea")
                     comment_clicker.click()
+                    comment_clicker = driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[1]/div[3]/div/article[" + str(r) + "]/div[3]/section[3]/div/form/textarea")
                     comment_clicker.send_keys(comment_input)
+                    comment_clicker = driver.find_element_by_xpath("/html/body/div[1]/section/main/section/div[1]/div[3]/div/article[" + str(r) + "]/div[3]/section[3]/div/form/button[2]")
+                    comment_clicker.click()
+                    sleep(2)
                 except NoSuchElementException:
                     driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
 
@@ -260,9 +262,12 @@ class InstaBot():
                             continue
 
                 else:
+                    posts = driver.find_element_by_xpath('/html/body/div[1]/section/main/article')
+                    link_list = posts.find_elements_by_tag_name('a')
+                    real_links = list()
                     while len(real_links) < max_number_of_comments:
                         driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
-                        link_list = recent_posts.find_elements_by_tag_name('a')
+                        link_list = posts.find_elements_by_tag_name('a')
                         for x in range(len(link_list)):
                             if link_list[x].get_attribute("href") in real_links:
                                 pass
@@ -299,11 +304,12 @@ class InstaBot():
     # 5
     def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users):
         if users:
-            for user in users:
+            for user in range(len(users_input)):
                 driver.get("https://www.instagram.com/direct/new/")
                 dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div[1]/div/div[2]/input")
                 dm_clicker.click()
-                dm_clicker.send_keys(users[user])
+                dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div[1]/div/div[2]/input")
+                dm_clicker.send_keys(users_input[user])
                 dm_clicker = driver.find_element_by_xpath(
                     "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
                 dm_clicker.click()
@@ -312,13 +318,13 @@ class InstaBot():
                 dm_clicker.click()
                 sleep(3)
                 dm_clicker = driver.find_element_by_xpath(
-                    "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
+                    "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
                 dm_clicker.click()
                 dm_clicker = driver.find_element_by_xpath(
-                    "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
+                    "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
                 dm_clicker.send_keys(dm_input)
                 dm_clicker = driver.find_element_by_xpath(
-                    "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]")
+                    "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[3]/button")
                 dm_clicker.click()
 
         else:
@@ -366,12 +372,61 @@ class InstaBot():
                         dm_clicker.click()
                         sleep(3)
                         dm_clicker = driver.find_element_by_xpath(
-                            "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
+                            "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
                         dm_clicker.click()
                         dm_clicker = driver.find_element_by_xpath(
-                            "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[2]/textarea[1]")
+                            "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
                         dm_clicker.send_keys(dm_input)
                         dm_clicker = driver.find_element_by_xpath(
-                            "/html[1]/body[1]/div[1]/section[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[2]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]")
+                            "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[3]/button")
+                        dm_clicker.click()
+                else:
+                    posts = driver.find_element_by_xpath('/html/body/div[1]/section/main/article')
+                    link_list = posts.find_elements_by_tag_name('a')
+                    real_links = list()
+                    while len(real_links) < max_number_of_dms:
+                        driver.find_element_by_tag_name('html').send_keys(Keys.PAGE_DOWN)
+                        link_list = posts.find_elements_by_tag_name('a')
+                        for x in range(len(link_list)):
+                            if link_list[x].get_attribute("href") in real_links:
+                                pass
+                            else:
+                                if len(real_links) < max_number_of_dms:
+                                    real_links.append(link_list[x].get_attribute("href"))
+                        print(real_links)
+
+                    dm_list = list()
+                    for z in range(len(real_links)):
+                        driver.get(real_links[z])
+                        user_link = driver.find_element_by_xpath(
+                            "/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div[1]/span/a")
+                        dm_list.append(user_link.get_attribute("href"))
+                    for y in range(len(dm_list)):
+                        driver.get("https://www.instagram.com/direct/new/")
+                        dm_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[2]/div/div/div[2]/div[1]/div/div[2]/input")
+                        dm_clicker.click()
+
+                        s = dm_list[y]
+                        result = re.search('https://www.instagram.com/(.*)/', s)
+                        print(result.group(1))
+                        dm_clicker.send_keys(result.group(1))
+
+                        dm_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
+                        dm_clicker.click()
+                        sleep(3)
+                        dm_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[2]/div/div/div[1]/div/div[2]/div/button/div")
+                        dm_clicker.click()
+                        sleep(3)
+                        dm_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
+                        dm_clicker.click()
+                        dm_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
+                        dm_clicker.send_keys(dm_input)
+                        dm_clicker = driver.find_element_by_xpath(
+                            "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[3]/button")
                         dm_clicker.click()
         pass
