@@ -49,7 +49,7 @@ class InstaBot():
         desired_unfollowing = 0
 
     # 1
-    def like(self, max_number_of_likes, tags, time_between=5, skip_top_nine=True):
+    def like(self, max_number_of_likes, tags, time_between, skip_top_nine):
 
         for tag in range(len(tags)):
             driver.get(f'https://www.instagram.com/tags/{tags[tag]}')
@@ -89,8 +89,8 @@ class InstaBot():
                 print(x)
                 driver.get(actual_links[x])
                 try:
-                    dur1 = random.uniform(10, 15)
-                    dur2 = random.uniform(10, 15)
+                    dur1 = time_between
+                    dur2 = time_between
                     print(dur1)
                     print(dur2)
                     sleep(dur1)
@@ -203,7 +203,7 @@ class InstaBot():
             # stop unfollowing, and return to first_session, find next index
 
     # 4
-    def comment(max_number_of_comments, comment_input, skip_top_nine, feed, tag_list):
+    def comment(self, max_number_of_comments, comment_input, tag_list, skip_top_nine=True, feed=False):
         if feed:
             driver.get("https://www.instagram.com/")
             for r in range(1, max_number_of_comments):
@@ -302,7 +302,7 @@ class InstaBot():
         pass
 
     # 5
-    def dm(max_number_of_dms, dm_input, skip_top_nine, tag_list, users_input, users=False):
+    def dm(self, max_number_of_dms, dm_input, skip_top_nine, tag_list, users_input, users=False):
         if users:
             for user in range(len(users_input)):
                 driver.get("https://www.instagram.com/direct/new/")

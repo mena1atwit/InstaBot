@@ -4,7 +4,7 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QComboBox
 
 bot = InstaBot()
-bot.login("wheis8", "Chowder888")
+bot.login("wheis13", "Chowder888")
 
 
 class BoldTitle(QLabel):
@@ -266,6 +266,12 @@ class MainWindow(QWidget):
         tags_like_input = self.tags_like.text()
         delay_like_text_input = self.delay_like.text()
         skip_top_nine_like_input = self.skip_top_nine_like.currentText()
+        skip_top_nine_like_input_bool = True
+        if skip_top_nine_like_input.lower() == 'yes':
+            skip_top_nine_like_input_bool = True
+        else:
+            skip_top_nine_like_input_bool = False
+
         order_like_input = self.order_like.text()
         print("Likes:")
         print(str("Maximum Number of Likes: " + max_num_likes_input))
@@ -275,7 +281,7 @@ class MainWindow(QWidget):
         # print("\n") #this is for skip
         print(str("Order of Likes: " + order_like_input))
         print("\n")
-        bot.like(max_num_likes_input, [tags_like_input])
+        bot.like(int(max_num_likes_input), [tags_like_input], int(delay_like_text_input), skip_top_nine_like_input_bool)
 
         # Comments
         print("Comments: ")
@@ -292,6 +298,7 @@ class MainWindow(QWidget):
         print(str("Order of Like Comments: " + order_like_comment_input))
         print(str("Comment Input: " + commment_input_input))
         print("\n")
+        bot.comment(int(max_num_comments_input), commment_input_input, [tags_comment_input])
 
         # dm
         print("Dms: ")
