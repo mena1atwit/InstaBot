@@ -1,7 +1,11 @@
 import sys
-
+import main
+from main import InstaBot
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QApplication, QWidget, QLineEdit, QPushButton, QVBoxLayout, QHBoxLayout, QLabel, QComboBox
+
+bot = InstaBot()
+bot.login("wheis7", "Chowder888")
 
 
 class BoldTitle(QLabel):
@@ -272,6 +276,7 @@ class MainWindow(QWidget):
         # print("\n") #this is for skip
         print(str("Order of Likes: " + order_like_input))
         print("\n")
+        bot.like(max_num_likes_input, [tags_like_input])
 
         # Comments
         print("Comments: ")
