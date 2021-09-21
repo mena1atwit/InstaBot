@@ -200,25 +200,39 @@ class InstaBot():
                         ran_once = True
 
     # 3
-    # TODO finish unfollow function
-    def unfollow(users_unfollow, whitelist, desired_unfollowing, time_between):
-        unfollow_users = users_unfollow
-        # unfollow input users
-        # unfollow method
-        # list_intersection = set.intersection(set(unfollow_users),set(whitelist))
-        # do not unfollow intersections
-        if users_unfollow > 0:
+    def unfollow(users_unfollow, followers_unfollow, time_between):
+        # unfollow from list of following
+        if followers_unfollow > 0:
+            driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[3]/div/div[5]/span").click()
+            driver.find_element_by_xpath(
+                "/html/body/div[1]/section/nav/div[2]/div/div/div[3]/div/div[5]/div[2]/div[2]/div[2]/a[1]/div/div[2]/div/div/div/div").click()
+            driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/ul/li[3]/a").click()
+            followers = driver.find_element_by_xpath("/html/body/div[6]/div/div/div[3]/ul/div")
+            for x in range(followers_unfollow + 1):
+                if x == 0:
+                    continue
+                try:
+                    # unfollowing user
+                    driver.find_element_by_xpath(
+                        f"/html/body/div[6]/div/div/div[3]/ul/div/li[{x}]/div/div[3]/button").click()
+                    sleep(time_between)
+                    # confirming unfollow
+                    driver.find_element_by_xpath("/html/body/div[7]/div/div/div/div[3]/button[1]").click()
+                except NoSuchElementException:
+                    x -= 1
+                    print("no such catched")
+                    continue
+
+        # unfollow a list of users
+        if not users_unfollow == [""]:
             for names in users_unfollow:
-                driver.get(f'https://www.instagram.com/%7Bnames%7D/%27')
-                driver.implicitly_wait(5)
-                user_account = driver.find_element_by_xpath(
-                    "/ html/body/div[1]/div/div/section/main/div/header/section/div[1]/div[2]/div / div / div / span / span[1] / button").click()
-                sleep(1)
-                user_unfollow = driver.find_element_by_xpath("/html/body/div[6]/div/div/div/div[3]/button[1]").click()
-        # for every person unfollowed, unfollowed++
-        if unfollowed >= desired_unfollowing:
-            pass
-            # stop unfollowing, and return to first_session, find next index
+                driver.get(f'https://www.instagram.com/{names}/')
+                sleep(time_between)
+                driver.find_element_by_xpath(
+                    "/html/body/div[1]/section/main/div/header/section/div[1]/div[2]/div/div[2]/div/span/span[1]/button/div/span").click()
+
+                sleep(time_between)
+                driver.find_element_by_xpath("/html/body/div[6]/div/div/div/div[3]/button[1]").click()
 
     # 4
     def comment(self, max_number_of_comments, comment_input, tag_list, skip_top_nine=True, feed=False):
