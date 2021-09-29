@@ -101,45 +101,46 @@ class InstaBot():
                     continue
 
     # 2
-    def follow(accounts_to_follow, follow_followers, follow_likers, post_index, hashtags, time_between, skip_top_nine):
+    def follow(self,accounts_to_follow, follow_user, follow_followers, post_index, follow_likers, hashtag, skip_top_nine,
+               time_between):
         # just following user
-        if follow_user and not follow_followers:
-            for names in account_names:
+        if follow_user and follow_followers == 0:
+            for names in accounts_to_follow:
                 driver.get(f'https://www.instagram.com/{names}/')
                 driver.implicitly_wait(5)
                 user_account = driver.find_element_by_xpath(
                     "/ html/body/div[1]/div/div/section/main/div/header/section/div[1]/div[2]/div / div / div / span / span[1] / button").click()
 
         # if following user and following the user's followers
-        if follow_followers and follow_user:
-            desired_following += 1
-            for names in account_names:
+        if follow_followers > 0 and follow_user:
+            # accounts_to_follow += 1
+            for names in accounts_to_follow:
                 driver.get(f'https://www.instagram.com/{names}/')
                 driver.implicitly_wait(5)
                 user_account = driver.find_element_by_xpath(
                     "/html/body/div[1]/div/div/section/main/div/header/section/div[1]/div[1]/div/div/div/span/span[1]/button").click()
-                sleep(2)
+                sleep(time_between)
                 followers = driver.find_element_by_xpath(
                     "/ html / body / div[1] / div / div / section / main / div / header / section / ul / li[2] / a")
                 followers.click()
 
-                for x in range(desired_following):
+                for x in range(follow_followers):
                     try:
                         index = x + 1
                         driver.find_element_by_xpath(
                             f"/html/body/div[6]/div/div/div[2]/ul/div/li[{index}]/div/div[3]/button").click()
-                        sleep(1)
+                        sleep(time_between)
                     except NoSuchElementException:
                         x += 1
                         continue
         # if following the user's followers, but not following the user
-        if follow_followers and not follow_user:
-            driver.get(f'https://www.instagram.com/{account_names}/')
+        if follow_followers > 0 and not follow_user:
+            driver.get(f'https://www.instagram.com/{accounts_to_follow[1]}/')
             driver.implicitly_wait(5)
             followers = driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/ul/li[2]/a")
             followers.click()
 
-            for x in range(desired_following):
+            for x in range(follow_followers):
                 try:
                     index = x + 1
                     driver.find_element_by_xpath(
@@ -148,59 +149,90 @@ class InstaBot():
                     x -= 1
                     continue
 
-        if follow_likers:
+        if follow_likers > 0 and not post_index == [""]:
             # get post here
-            driver.get('https://www.instagram.com/p/CSr9trvpAra/')
-            sleep(2)
-            # open likes page
-            likes = driver.find_element_by_xpath(
-                "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[2]/div/div/a").click()
-            sleep(2)
-            for x in range(desired_following):
-                try:
-                    like_index = x + 1
-                    driver.find_element_by_xpath(
-                        f"/html/body/div[6]/div/div/div[2]/div/div/div[{like_index}]/div[3]/button").click()
-                    sleep(1)
-                except NoSuchElementException:
-                    continue
-        follows = 0
-        accounts_list = ["", accounts_to_follow]
-        # subcount = driver.find_element_by_id("subscriber-count").text
-        # print(subcount)
-        followers = driver.find_element_by_class_name("-nal3").click
-        for x in range(desired_following):
-            index = 1
-            driver.find_element_by_xpath(
-                f"/html/body/div[6]/div/div/div[2]/ul/div/li[{index}]]/div/div[2]/button").click
-            index += 1
-        #
-        for account in accounts_list:
-            accounts_list.append(account)
-        if follows < desired_following:
-            # stop following
-            pass
+            for posts in post_index:
+                driver.get(f'{posts}')
+                sleep(time_between)
+                # open likes page
+                likes = driver.find_element_by_xpath(
+                    "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[2]/div/div/a").click()
+                sleep(time_between)
+                for x in range(follow_likers):
+                    try:
+                        like_index = x + 1
+                        driver.find_element_by_xpath(
+                            f"/html/body/div[6]/div/div/div[2]/div/div/div[{like_index}]/div[3]/button").click()
+                        sleep(time_between)
+                    except NoSuchElementException:
+                        continue
+        # follow from post index
+        if not post_index == [""]:
+            for posts in post_index:
+                driver.get(f'{posts}')
+        if not hashtag == [""]:
+            for hashtags in hashtag:
+                ran_once = False
+                driver.get(f'https://www.instagram.com/explore/tags/{hashtags}/')
+                for x in range(len(hashtag)):
+                    if not ran_once and not skip_top_nine:
+                        driver.find_element_by_xpath(
+                            f"/html/body/div[1]/section/main/article/div[1]/div/div/div[1]/div[1]").click()
+                    elif not ran_once and skip_top_nine:
+                        driver.find_element_by_xpath(
+                            "/html/body/div[1]/section/main/article/div[2]/div/div[1]/div[1]").click()
+                    sleep(time_between)
+                    try:
+                        driver.find_element_by_xpath(
+                            ("/html/body/div[6]/div[2]/div/article/header/div[2]/div[1]/div[2]/button")).click()
+                        print("Couldnt follow from tag")
+                    except NoSuchElementException:
+                        continue
+                    sleep(time_between)
+
+                    if ran_once:
+                        driver.find_element_by_xpath("/html/body/div[6]/div[1]/div/div/a[2]").click()
+                    if skip_top_nine:
+                        driver.find_element_by_xpath("/html/body/div[6]/div[1]/div/div/a[2]").click()
+                        ran_once = True
+                    elif not ran_once and not skip_top_nine:
+                        driver.find_element_by_xpath("/html/body/div[6]/div[1]/div/div/a").click()
+                        ran_once = True
 
     # 3
-    # TODO finish unfollow function
-    def unfollow(users_unfollow, whitelist, desired_unfollowing, time_between):
-        unfollow_users = users_unfollow
-        # unfollow input users
-        # unfollow method
-        # list_intersection = set.intersection(set(unfollow_users),set(whitelist))
-        # do not unfollow intersections
-        if users_unfollow > 0:
+    def unfollow(users_unfollow, followers_unfollow, time_between):
+        # unfollow from list of following
+        if followers_unfollow > 0:
+            driver.find_element_by_xpath("/html/body/div[1]/section/nav/div[2]/div/div/div[3]/div/div[5]/span").click()
+            driver.find_element_by_xpath(
+                "/html/body/div[1]/section/nav/div[2]/div/div/div[3]/div/div[5]/div[2]/div[2]/div[2]/a[1]/div/div[2]/div/div/div/div").click()
+            driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/ul/li[3]/a").click()
+            followers = driver.find_element_by_xpath("/html/body/div[6]/div/div/div[3]/ul/div")
+            for x in range(followers_unfollow + 1):
+                if x == 0:
+                    continue
+                try:
+                    # unfollowing user
+                    driver.find_element_by_xpath(
+                        f"/html/body/div[6]/div/div/div[3]/ul/div/li[{x}]/div/div[3]/button").click()
+                    sleep(time_between)
+                    # confirming unfollow
+                    driver.find_element_by_xpath("/html/body/div[7]/div/div/div/div[3]/button[1]").click()
+                except NoSuchElementException:
+                    x -= 1
+                    print("no such catched")
+                    continue
+
+        # unfollow a list of users
+        if not users_unfollow == [""]:
             for names in users_unfollow:
-                driver.get(f'https://www.instagram.com/%7Bnames%7D/%27')
-                driver.implicitly_wait(5)
-                user_account = driver.find_element_by_xpath(
-                    "/ html/body/div[1]/div/div/section/main/div/header/section/div[1]/div[2]/div / div / div / span / span[1] / button").click()
-                sleep(1)
-                user_unfollow = driver.find_element_by_xpath("/html/body/div[6]/div/div/div/div[3]/button[1]").click()
-        # for every person unfollowed, unfollowed++
-        if unfollowed >= desired_unfollowing:
-            pass
-            # stop unfollowing, and return to first_session, find next index
+                driver.get(f'https://www.instagram.com/{names}/')
+                sleep(time_between)
+                driver.find_element_by_xpath(
+                    "/html/body/div[1]/section/main/div/header/section/div[1]/div[2]/div/div[2]/div/span/span[1]/button/div/span").click()
+
+                sleep(time_between)
+                driver.find_element_by_xpath("/html/body/div[6]/div/div/div/div[3]/button[1]").click()
 
     # 4
     def comment(self, max_number_of_comments, comment_input, tag_list, skip_top_nine=True, feed=False):
