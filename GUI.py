@@ -227,10 +227,10 @@ class MainWindow(QWidget):
         self.users_unfollow_hbox.addWidget(self.users_unfollow)
 
         # Whitelist Users
-        self.whitelist = QLineEdit()
-        self.whitelist_hbox = QHBoxLayout()
-        self.whitelist_hbox.addWidget(QLabel("Whitelist Users "))
-        self.whitelist_hbox.addWidget(self.whitelist)
+        # self.whitelist = QLineEdit()
+        # self.whitelist_hbox = QHBoxLayout()
+        # self.whitelist_hbox.addWidget(QLabel("Whitelist Users "))
+        # self.whitelist_hbox.addWidget(self.whitelist)
 
         # Desired Unfollow
         self.desired_unfollowing = QLineEdit()
@@ -247,7 +247,7 @@ class MainWindow(QWidget):
         # Unfollow-Main Layout
         mainLayout.addWidget(BoldTitle('Unfollow'))
         mainLayout.addLayout(self.users_unfollow_hbox)
-        mainLayout.addLayout(self.whitelist_hbox)
+        # mainLayout.addLayout(self.whitelist_hbox)
         mainLayout.addLayout(self.desired_unfollowing_hbox)
         mainLayout.addLayout(self.delay_unfollow_hbox)
 
@@ -272,14 +272,14 @@ class MainWindow(QWidget):
         else:
             skip_top_nine_like_input_bool = False
 
-        order_like_input = self.order_like.text()
+        # order_like_input = self.order_like.text()
         print("Likes:")
         print(str("Maximum Number of Likes: " + max_num_likes_input))
         print(str("Tags like: " + tags_like_input))
         print(str("Delay for Likes: " + delay_like_text_input))
         print(str("Skip Top Nine: " + skip_top_nine_like_input))
         # print("\n") #this is for skip
-        print(str("Order of Likes: " + order_like_input))
+        # print(str("Order of Likes: " + order_like_input))
         print("\n")
         bot.like(int(max_num_likes_input), [tags_like_input], int(delay_like_text_input), skip_top_nine_like_input_bool)
 
@@ -288,17 +288,22 @@ class MainWindow(QWidget):
         max_num_comments_input = self.max_number_of_comments.text()
         tags_comment_input = self.tags_comment.text()
         delay_comment_input = self.delay_comment.text()
-        # skip top 9
-        order_like_comment_input = self.order_like_comment.text()
+        skip_top_nine_comment_input = self.skip_top_nine_comment.currentText()
+        skip_top_nine_comment_input_bool = True
+        if skip_top_nine_comment_input.lower() == 'yes':
+            skip_top_nine_comment_input_bool = True
+        else:
+            skip_top_nine_comment_input_bool = False
+        # order_comment_input = self.order_like_comment.text()
         commment_input_input = self.comment_input.text()
         print(str("Maximum Number of Comments: " + max_num_comments_input))
         print(str("Tags to Comment: " + tags_comment_input))
         print(str("Delay for Comments: " + delay_comment_input))
         # print("\n")  # this is for skip
-        print(str("Order of Like Comments: " + order_like_comment_input))
+        # print(str("Order of Comments: " + order_comment_input))
         print(str("Comment Input: " + commment_input_input))
         print("\n")
-        bot.comment(int(max_num_comments_input), commment_input_input, [tags_comment_input])
+        bot.comment(int(max_num_comments_input), commment_input_input, [tags_comment_input], skip_top_nine_comment_input_bool)
 
         # dm
         print("Dms: ")
@@ -308,6 +313,12 @@ class MainWindow(QWidget):
         tags_dm_input = self.tags_dm.text()
         users_dm_input = self.users_dm.text()
         delay_dm_input = self.delay_dm.text()
+        skip_top_nine_dm_input = self.skip_top_nine_dm.currentText()
+        skip_top_nine_dm_input_bool = True
+        if skip_top_nine_dm_input.lower() == 'yes':
+            skip_top_nine_dm_input_bool = True
+        else:
+            skip_top_nine_dm_input_bool = False
         print(str("Maximum Number of dms: " + max_num_dms_input))
         print(str("dm input: " + dm_input_input))
         # print("\n")  # this is for skip
@@ -315,6 +326,7 @@ class MainWindow(QWidget):
         print(str("users dm input: " + users_dm_input))
         print(str("delay dm: " + delay_dm_input))
         print("\n")
+        bot.dm(int(max_num_dms_input), dm_input_input, [tags_dm_input], users_dm_input, skip_top_nine_dm_input_bool)
 
         # follow
         print("Follow: ")
@@ -325,7 +337,12 @@ class MainWindow(QWidget):
         tags_follow_input = self.tags_follow.text()
         delay_follow_input = self.delay_follow.text()
         # top 9
-
+        skip_top_nine_follow_input = self.skip_top_nine_dm.currentText()
+        skip_top_nine_follow_input_bool = True
+        if skip_top_nine_follow_input.lower() == 'yes':
+            skip_top_nine_follow_input_bool = True
+        else:
+            skip_top_nine_follow_input_bool = False
         print(str("Accounts to follow: " + accounts_to_follow_input))
         print(str("follow_followers: " + follow_followers_input))
         print(str("follow likers: " + follow_likers_input))
@@ -334,16 +351,17 @@ class MainWindow(QWidget):
         print(str("delay follow input: " + delay_follow_input))
         # print("\n")  # this is for skip
         print("\n")
+        bot.follow([accounts_to_follow_input], int(follow_followers_input), int(follow_likers_input), [post_index_input], [tags_follow_input], int(delay_follow_input), skip_top_nine_follow_input_bool)
 
         # unfollow
         print("unfollow: ")
         users_unfollow_input = self.users_unfollow.text()
-        whitelist_input = self.whitelist.text()
+        # whitelist_input = self.whitelist.text()
         desired_unfollowing_input = self.desired_unfollowing.text()
         delay_unfollow_input = self.delay_unfollow.text()
 
         print(str("users to unfollow: " + users_unfollow_input))
-        print(str("whitelist " + whitelist_input))
+        # print(str("whitelist " + whitelist_input))
         print(str("desired unfollowing: " + desired_unfollowing_input))
         print(str("delay unfollowing: " + delay_unfollow_input))
 

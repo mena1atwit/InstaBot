@@ -94,8 +94,7 @@ class InstaBot():
                     print(dur1)
                     print(dur2)
                     sleep(dur1)
-                    driver.find_element_by_xpath(
-                        '/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[1]/span[1]/button').click()
+                    driver.find_element_by_xpath('/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[1]/span[1]/button').click()
                     sleep(dur2)
                 except NoSuchElementException:
                     continue
@@ -334,7 +333,7 @@ class InstaBot():
         pass
 
     # 5
-    def dm(self, max_number_of_dms, dm_input, skip_top_nine, tag_list, users_input, users=False):
+    def dm(self, max_number_of_dms, dm_input, tag_list, users_input, skip_top_nine=True, users=False):
         if users:
             for user in range(len(users_input)):
                 driver.get("https://www.instagram.com/direct/new/")
