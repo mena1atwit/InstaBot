@@ -234,7 +234,7 @@ class InstaBot():
                 driver.find_element_by_xpath("/html/body/div[6]/div/div/div/div[3]/button[1]").click()
 
     # 4
-    def comment(self, max_number_of_comments, comment_input, tag_list, skip_top_nine=True, feed=False):
+    def comment(self, max_number_of_comments, comment_input, tag_list, time_between, skip_top_nine=True, feed=False):
         if feed:
             driver.get("https://www.instagram.com/")
             for r in range(1, max_number_of_comments):
@@ -278,15 +278,15 @@ class InstaBot():
                         print(z)
                         try:
                             comment_clicker = driver.find_element_by_xpath(
-                                "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
+                                "/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/textarea")
                             comment_clicker.click()
                             sleep(time1)
                             comment_clicker = driver.find_element_by_xpath(
-                                "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
+                                "/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/textarea")
                             comment_clicker.send_keys(comment_input)
                             sleep(time2)
                             comment_clicker = driver.find_element_by_xpath(
-                                "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/button[2]")
+                                "/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/button[2]")
                             comment_clicker.click()
                             sleep(time3)
                         finally:
@@ -308,33 +308,33 @@ class InstaBot():
                     print(real_links)
                     for z in range(len(real_links)):
                         driver.get(real_links[z])
-                        time1 = random.uniform(5, 10)
-                        time2 = random.uniform(5, 10)
-                        time3 = random.uniform(5, 10)
-                        print(time1)
-                        print(time2)
-                        print(time3)
+                        # time1 = random.uniform(5, 10)
+                        # time2 = random.uniform(5, 10)
+                        # time3 = random.uniform(5, 10)
+                        # print(time1)
+                        # print(time2)
+                        # print(time3)
                         print(z)
                         try:
                             comment_clicker = driver.find_element_by_xpath(
                                 "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
                             comment_clicker.click()
-                            sleep(time1)
+                            sleep(time_between)
                             comment_clicker = driver.find_element_by_xpath(
                                 "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/textarea")
                             comment_clicker.send_keys(comment_input)
-                            sleep(time2)
+                            sleep(time_between)
                             comment_clicker = driver.find_element_by_xpath(
                                 "/html/body/div[1]/section/main/div/div[1]/article/div[3]/section[3]/div/form/button[2]")
                             comment_clicker.click()
-                            sleep(time3)
+                            sleep(time_between)
                         finally:
                             continue
         pass
 
     # 5
-    def dm(self, max_number_of_dms, dm_input, tag_list, users_input, skip_top_nine=True, users=False):
-        if users:
+    def dm(self, max_number_of_dms, dm_input, tag_list, users_input, time_between, skip_top_nine=True, users=False):
+        if len(users) > 0:
             for user in range(len(users_input)):
                 driver.get("https://www.instagram.com/direct/new/")
                 dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div[1]/div/div[2]/input")
@@ -342,12 +342,12 @@ class InstaBot():
                 dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[2]/div[1]/div/div[2]/input")
                 dm_clicker.send_keys(users_input[user])
                 dm_clicker = driver.find_element_by_xpath(
-                    "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
+                    "/html/body/div[2]/div/div/div[2]/div[2]/div[1]/div/div[3]/button")
                 dm_clicker.click()
-                sleep(3)
-                dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[1]/div/div[2]/div/button/div")
+                sleep(time_between)
+                dm_clicker = driver.find_element_by_xpath("/html/body/div[2]/div/div/div[1]/div/div[2]/div/button")
                 dm_clicker.click()
-                sleep(3)
+                sleep(time_between)
                 dm_clicker = driver.find_element_by_xpath(
                     "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
                 dm_clicker.click()
@@ -358,7 +358,7 @@ class InstaBot():
                     "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[3]/button")
                 dm_clicker.click()
 
-        else:
+        if len(tag_list) > 0:
             for tag in range(len(tag_list)):
                 driver.get(f'https://www.instagram.com/tags/{tag_list[tag]}/')
                 if skip_top_nine:
@@ -381,7 +381,7 @@ class InstaBot():
                     for z in range(len(real_links)):
                         driver.get(real_links[z])
                         user_link = driver.find_element_by_xpath(
-                            "/html/body/div[1]/section/main/div/div[1]/article/header/div[2]/div[1]/div[1]/span/a")
+                            "/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[1]/div/header/div[2]/div[1]/div[1]/span/a")
                         dm_list.append(user_link.get_attribute("href"))
                     for y in range(len(dm_list)):
                         driver.get("https://www.instagram.com/direct/new/")
@@ -395,13 +395,13 @@ class InstaBot():
                         dm_clicker.send_keys(result.group(1))
 
                         dm_clicker = driver.find_element_by_xpath(
-                            "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
+                            "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button")
                         dm_clicker.click()
-                        sleep(3)
+                        sleep(time_between)
                         dm_clicker = driver.find_element_by_xpath(
-                            "/html/body/div[2]/div/div/div[1]/div/div[2]/div/button/div")
+                            "/html/body/div[2]/div/div/div[1]/div/div[2]/div/button")
                         dm_clicker.click()
-                        sleep(3)
+                        sleep(time_between)
                         dm_clicker = driver.find_element_by_xpath(
                             "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
                         dm_clicker.click()
@@ -444,13 +444,13 @@ class InstaBot():
                         dm_clicker.send_keys(result.group(1))
 
                         dm_clicker = driver.find_element_by_xpath(
-                            "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button/span")
+                            "/html/body/div[2]/div/div/div[2]/div[2]/div/div/div[3]/button")
                         dm_clicker.click()
-                        sleep(3)
+                        sleep(time_between)
                         dm_clicker = driver.find_element_by_xpath(
-                            "/html/body/div[2]/div/div/div[1]/div/div[2]/div/button/div")
+                            "/html/body/div[2]/div/div/div[1]/div/div[2]/div/button")
                         dm_clicker.click()
-                        sleep(3)
+                        sleep(time_between)
                         dm_clicker = driver.find_element_by_xpath(
                             "/html/body/div[1]/section/div/div[2]/div/div/div[2]/div[2]/div/div[2]/div/div/div[2]/textarea")
                         dm_clicker.click()

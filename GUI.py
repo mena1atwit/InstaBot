@@ -303,7 +303,7 @@ class MainWindow(QWidget):
         # print(str("Order of Comments: " + order_comment_input))
         print(str("Comment Input: " + commment_input_input))
         print("\n")
-        bot.comment(int(max_num_comments_input), commment_input_input, [tags_comment_input], skip_top_nine_comment_input_bool)
+        bot.comment(int(max_num_comments_input), commment_input_input, [tags_comment_input], delay_comment_input, skip_top_nine_comment_input_bool)
 
         # dm
         print("Dms: ")
